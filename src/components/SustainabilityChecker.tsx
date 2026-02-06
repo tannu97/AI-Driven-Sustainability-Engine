@@ -7,13 +7,15 @@ export default function SustainabilityChecker() {
   const [water, setWater] = useState(0);
   const [transport, setTransport] = useState("bike");
   const [result, setResult] = useState<any>(null);
+  const [waste, setWaste] = useState(0);
 
   const predictedElectricity = predictNextMonthUsage(electricity);
   const handleCheck = () => {
-    const res = calculateSustainability({
-  electricity: predictedElectricity,
+   const res = calculateSustainability({
+  electricity,
   water,
   transport,
+  waste,
 });
     setResult(res);
   };
@@ -38,6 +40,12 @@ export default function SustainabilityChecker() {
           className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
           onChange={(e) => setWater(Number(e.target.value))}
         />
+        <input
+  type="number"
+  placeholder="Waste generated (kg)"
+  className="w-full border rounded-lg p-2"
+  onChange={(e) => setWaste(Number(e.target.value))}
+/>
 
         {electricity > 0 && (
   <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-800">
@@ -67,6 +75,10 @@ export default function SustainabilityChecker() {
           <h3 className="text-lg font-semibold text-green-800">
             Score: {result.score}
           </h3>
+
+           <p className="text-sm mt-2">
+      Carbon Footprint: {result.carbon} kg CO₂
+    </p>
 
           <ul className="mt-2 list-disc list-inside text-gray-700 space-y-1">
             {result.suggestions.map((s: string, i: number) => (

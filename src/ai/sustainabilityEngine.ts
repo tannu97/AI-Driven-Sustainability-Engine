@@ -1,29 +1,55 @@
 export function calculateSustainability(data: {
   electricity: number;
-  transport: string;
   water: number;
+  transport: string;
+  waste: number;
 }) {
   let score = 100;
+  let carbon = 0;
   let suggestions: string[] = [];
 
+  // Electricity impact
+  carbon += data.electricity * 0.82;
   if (data.electricity > 300) {
     score -= 20;
-    suggestions.push("Reduce electricity usage by switching to LED lighting.");
+    suggestions.push("Reduce electricity usage or switch to solar energy.");
   }
 
-  if (data.transport === "car") {
-    score -= 25;
-    suggestions.push("Use public transport or carpool to reduce emissions.");
-  }
-
+  // Water impact
   if (data.water > 200) {
     score -= 15;
-    suggestions.push("Consider water-saving fixtures and shorter usage time.");
+    suggestions.push("Install water-saving fixtures.");
+  }
+
+  // Transport impact
+  if (data.transport === "car") {
+    score -= 25;
+    carbon += 50;
+    suggestions.push("Use public transport or carpool.");
+  }
+
+  if (data.transport === "bus") {
+    carbon += 15;
+  }
+
+  if (data.transport === "bike") {
+    carbon += 5;
+  }
+
+  // Waste impact
+  carbon += data.waste * 1.2;
+  if (data.waste > 5) {
+    score -= 10;
+    suggestions.push("Reduce waste and increase recycling.");
   }
 
   if (score > 80) {
-    suggestions.push("Great job! Your sustainability habits are strong.");
+    suggestions.push("Your sustainability habits are strong.");
   }
 
-  return { score, suggestions };
+  return {
+    score: Math.max(score, 0),
+    carbon: carbon.toFixed(2),
+    suggestions,
+  };
 }
