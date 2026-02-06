@@ -5,17 +5,18 @@ import { DemandPrediction } from './components/DemandPrediction';
 import { AIRecommendations } from './components/AIRecommendations';
 import { PolicySimulator } from './components/PolicySimulator';
 import { LayoutDashboard, Database, TrendingUp, Lightbulb, FlaskConical } from 'lucide-react';
+import SustainabilityChecker from "./components/SustainabilityChecker";
+
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
 
-  const tabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'data', label: 'Data Integration', icon: Database },
-    { id: 'prediction', label: 'Demand Prediction', icon: TrendingUp },
-    { id: 'recommendations', label: 'AI Recommendations', icon: Lightbulb },
-    { id: 'simulator', label: 'Policy Simulator', icon: FlaskConical },
-  ];
+const tabs = [
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'engine', label: 'Sustainability Engine', icon: Lightbulb },
+  { id: 'prediction', label: 'Demand Prediction', icon: TrendingUp },
+  { id: 'simulator', label: 'Policy Simulator', icon: FlaskConical },
+];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-teal-50">
@@ -72,12 +73,11 @@ export default function App() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {activeTab === 'dashboard' && <Dashboard />}
-        {activeTab === 'data' && <DataIntegration />}
-        {activeTab === 'prediction' && <DemandPrediction />}
-        {activeTab === 'recommendations' && <AIRecommendations />}
-        {activeTab === 'simulator' && <PolicySimulator />}
-      </main>
+  {activeTab === 'dashboard' && <Dashboard />}
+  {activeTab === 'engine' && <SustainabilityChecker />}
+  {activeTab === 'prediction' && <DemandPrediction />}
+  {activeTab === 'simulator' && <PolicySimulator />}
+</main>
     </div>
   );
 }
